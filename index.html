@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Организационная структура</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .org-chart {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        backdrop-filter: blur(10px);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+      }
+
+      .company-title {
+        font-size: 2.5rem;
+        color: #667eea;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .company-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        font-style: italic;
+      }
+
+      .level {
+        margin-bottom: 60px;
+        position: relative;
+      }
+
+      .level-title {
+        text-align: center;
+        font-size: 1.4rem;
+        color: #764ba2;
+        margin-bottom: 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .employee-grid {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        position: relative;
+      }
+
+      .employee-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        border-radius: 15px;
+        padding: 25px 20px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        min-width: 250px;
+        max-width: 280px;
+        position: relative;
+      }
+
+      .employee-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        border-color: #667eea;
+      }
+
+      .founder {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: 3px solid #f8f9ff;
+        transform: scale(1.1);
+        position: relative;
+      }
+
+      .founder::before {
+        content: '👑';
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        font-size: 2rem;
+        background: #ffd700;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .role-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .employee-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: inherit;
+      }
+
+      .employee-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #667eea;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .founder .employee-title {
+        color: #ffd700;
+      }
+
+      .employee-desc {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: #666;
+        opacity: 0.9;
+      }
+
+      .founder .employee-desc {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .team-section {
+        margin-top: 40px;
+        padding: 30px;
+        background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+        border-radius: 15px;
+        border: 2px solid #e8ecff;
+      }
+
+      .team-title {
+        font-size: 1.6rem;
+        color: #764ba2;
+        margin-bottom: 25px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .dev-teams {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .dev-team {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border: 2px solid #f0f2ff;
+      }
+
+      .dev-team-title {
+        font-size: 1.2rem;
+        color: #667eea;
+        margin-bottom: 15px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .dev-member {
+        background: #f8f9ff;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+        border-left: 4px solid #667eea;
+      }
+
+      .other-roles {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .other-role {
+        background: linear-gradient(135deg, #ffffff 0%, #f0f2ff 100%);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border: 2px solid #e8ecff;
+        flex: 1;
+        min-width: 200px;
+        transition: all 0.3s ease;
+      }
+
+      .other-role:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .other-role-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .other-role-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #764ba2;
+        margin-bottom: 8px;
+      }
+
+      .other-role-count {
+        font-size: 0.9rem;
+        color: #666;
+        font-style: italic;
+      }
+
+      .connection-lines {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 40px;
+        background: linear-gradient(to bottom, #667eea, transparent);
+      }
+
+      .startup-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .dev-teams {
+          grid-template-columns: 1fr;
+        }
+
+        .other-roles {
+          flex-direction: column;
+        }
+
+        .company-title {
+          font-size: 2rem;
+        }
+
+        .founder {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="org-chart">
+      <div class="startup-badge">🚀 STARTUP</div>
+
+      <div class="header">
+        <h1 class="company-title">Организационная структура</h1>
+        <p class="company-subtitle">Инновационный стартап • Команда профессионалов</p>
+      </div>
+
+      <!-- Уровень 1: Руководство -->
+      <div class="level">
+        <h2 class="level-title">Руководство</h2>
+        <div class="employee-grid">
+          <div class="employee-card founder">
+            <span class="role-icon">🎯</span>
+            <div class="employee-name">Бердибек Уралов</div>
+            <div class="employee-title">Соучредитель & Product Manager</div>
+            <div class="employee-desc">
+              Стратегия продукта, видение компании, управление приоритетами
+            </div>
+          </div>
+        </div>
+        <div class="connection-lines"></div>
+      </div>
+
+      <!-- Уровень 2: Менеджмент -->
+      <div class="level">
+        <h2 class="level-title">Менеджмент & Поддержка</h2>
+        <div class="employee-grid">
+          <div class="employee-card">
+            <span class="role-icon">📋</span>
+            <div class="employee-name">Абдурашитов Дилшод</div>
+            <div class="employee-title">Project Manager</div>
+            <div class="employee-desc">Управление проектами, Agile/Scrum, координация команды</div>
+          </div>
+
+          <div class="employee-card">
+            <span class="role-icon">⚖️</span>
+            <div class="employee-name">Sunnat Panjiyev</div>
+            <div class="employee-title">Юрист & Business Development</div>
+            <div class="employee-desc">Юридическая поддержка, работа с инвесторами и клиентами</div>
+          </div>
+        </div>
+        <div class="connection-lines"></div>
+      </div>
+
+      <!-- Уровень 3: Техническая команда -->
+      <div class="level">
+        <h2 class="level-title">Техническая команда</h2>
+        <div class="employee-grid">
+          <div class="employee-card">
+            <span class="role-icon">👨‍💻</span>
+            <div class="employee-name">Islomov Doniyorbek</div>
+            <div class="employee-title">Team Lead</div>
+            <div class="employee-desc">Техническое лидерство, архитектура, менторинг команды</div>
+          </div>
+
+          <div class="employee-card">
+            <span class="role-icon">✅</span>
+            <div class="employee-name">Хакимов Акмал</div>
+            <div class="employee-title">QA Engineer</div>
+            <div class="employee-desc">Контроль качества, тестирование, баг-трекинг</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Команды разработки и дизайна -->
+      <div class="team-section">
+        <h3 class="team-title">🛠️ Команды разработки и креатива</h3>
+
+        <div class="dev-teams">
+          <div class="dev-team">
+            <h4 class="dev-team-title">🔧 Backend Team</h4>
+            <div class="dev-member">Backend Developer #1</div>
+            <div class="dev-member">Backend Developer #2</div>
+            <div class="dev-member">Backend Developer #3</div>
+          </div>
+
+          <div class="dev-team">
+            <h4 class="dev-team-title">💻 Frontend Team</h4>
+            <div class="dev-member">Frontend Developer #1</div>
+            <div class="dev-member">Frontend Developer #2</div>
+            <div class="dev-member">Frontend Developer #3</div>
+          </div>
+        </div>
+
+        <div class="other-roles">
+          <div class="other-role">
+            <span class="other-role-icon">📈</span>
+            <div class="other-role-title">Маркетолог</div>
+            <div class="other-role-count">1 специалист</div>
+          </div>
+
+          <div class="other-role">
+            <span class="other-role-icon">🎨</span>
+            <div class="other-role-title">Графические дизайнеры</div>
+            <div class="other-role-count">2-3 дизайнера</div>
+          </div>
+
+          <div class="other-role">
+            <span class="other-role-icon">🌐</span>
+            <div class="other-role-title">Web-дизайнер</div>
+            <div class="other-role-count">1 специалист</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
